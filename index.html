@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>LINA GAMES - GoldHen 9.00</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            text-align: center;
+        }
+        .content {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            margin: 100px auto;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 15px;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .info {
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+        .btn {
+            margin-top: 25px;
+            padding: 15px 30px;
+            background-color: #00ccff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            color: black;
+        }
+        .btn:hover {
+            background-color: #0099cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>صالة لينة</h1>
+        <p>مرحبًا بك في صفحة تفعيل GoldHen 9.00</p>
+        <button class="btn" onclick="sendPayload()">تفعيل GoldHen 9.00</button>
+        <div class="info">
+            <p>للتواصل: 0929444305</p>
+            <p>المهندس: المعز</p>
+        </div>
+    </div>
+
+    <script>
+        function sendPayload() {
+            fetch("goldhen.bin")
+                .then(response => response.arrayBuffer())
+                .then(payload => {
+                    let req = new XMLHttpRequest();
+                    req.open("POST", "http://" + location.hostname + ":9090", true);
+                    req.onload = function () {
+                        if (req.status === 200) {
+                            alert("✅ تم إرسال GoldHen بنجاح");
+                        } else {
+                            alert("❌ فشل إرسال Payload. تأكد من أن PS4 يستمع على المنفذ 9090");
+                        }
+                    };
+                    req.onerror = function () {
+                        alert("❌ خطأ في الاتصال بـ PS4.");
+                    };
+                    req.send(payload);
+                })
+                .catch(error => {
+                    alert("❌ لم يتم العثور على ملف GoldHen أو حدث خطأ.");
+                });
+        }
+    </script>
+</body>
+</html>
