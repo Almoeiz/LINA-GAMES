@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>LINA GAMES - GoldHen 9.00</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: black;
+            color: white;
+            text-align: center;
+            background-image: url('background.jpg');
+            background-size: cover;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            margin: 100px auto;
+            padding: 30px;
+            max-width: 600px;
+            border-radius: 15px;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .btn {
+            padding: 15px 30px;
+            margin: 15px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            color: black;
+            background-color: #00ccff;
+        }
+        .btn:hover {
+            background-color: #0099cc;
+        }
+        .info {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>صالة لينة</h1>
+        <p>أولاً شغّل Bin Loader ثم اضغط على زر التفعيل</p>
+        <button class="btn" onclick="window.location.href='http://'+location.hostname+':9090'">تشغيل Bin Loader</button>
+        <button class="btn" onclick="sendPayload()">تفعيل GoldHen 9.00</button>
+        <div class="info">
+            <p>للتواصل: 0929444305</p>
+            <p>المهندس: المعز</p>
+        </div>
+    </div>
+
+    <script>
+        function sendPayload() {
+            fetch("goldhen.bin")
+                .then(response => response.arrayBuffer())
+                .then(payload => {
+                    let req = new XMLHttpRequest();
+                    req.open("POST", "http://" + location.hostname + ":9090", true);
+                    req.onload = function () {
+                        if (req.status === 200) {
+                            alert("✅ تم إرسال GoldHen بنجاح");
+                        } else {
+                            alert("❌ فشل إرسال Payload. تأكد من تشغيل Bin Loader");
+                        }
+                    };
+                    req.onerror = function () {
+                        alert("❌ خطأ في الاتصال بـ PS4.");
+                    };
+                    req.send(payload);
+                })
+                .catch(error => {
+                    alert("❌ لم يتم العثور على ملف GoldHen أو حدث خطأ.");
+                });
+        }
+    </script>
+</body>
+</html>
